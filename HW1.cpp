@@ -7,8 +7,6 @@ int main()
 	while(cin >> number){
 		cout<<Cycle_Length(number)<<endl;
 	}
-
-	
     return 0;
 }
 int Cycle_Length(int number){
