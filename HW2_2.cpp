@@ -70,14 +70,11 @@ int main(void)
 			sum = sum + poster[i];
 		}
 		//計算海報張貼最大高度
-		if(sum==0){
-			cout<<board[0]<<endl;
-			continue;
-		}else if((sum-1)>Length_board){
-			cout<<0<<endl;
-		}else{
+		if(sum != 0 && sum-1<=Length_board){
 			int max_high = board[sum-1];
 			cout<<max_high<<endl;
+		}else{
+			cout<<0<<endl;
 		}
 	}
     return 0;
