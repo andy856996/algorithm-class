@@ -3,6 +3,13 @@
 #include <ctype.h>
 #include <stdlib.h>
 using namespace std;
+int sum_array(int arr[],int k){
+	int sum_posterPassArray = 0;
+	for(int i  = 0;i<k;i++){
+		sum_posterPassArray = sum_posterPassArray + arr[i];
+	}
+	return sum_posterPassArray;
+}
 void showArray(int arr[],int k){//顯示arrary的值 
 	for(int j = 0;j<k;j++){
 		cout<<arr[j]<<" ";
@@ -48,6 +55,13 @@ int main(void)
 		
 		int Length_board  = sizeof(board)/sizeof(int);
 		int Length_poster  = sizeof(poster)/sizeof(int);
+		
+		int posterPassArray[Length_poster], counter;
+	    for(counter = 0 ; counter < Length_poster ; counter++)
+	    {
+	        posterPassArray[counter] = 0;
+	    }
+		
 		//新增變數 board_tmp 和 board一樣 
 		int board_tmp[n];
 		for(int i = 0;i < n;i++){
@@ -71,45 +85,58 @@ int main(void)
 			sum = sum + poster[i];
 		}
 		
-		if(n==0 || p==0 || p>sum){
+		if(n==0 || p==0 || n<sum){
 			cout<<0<<endl;
 			continue;
 		}
-		
-		int index_count = 0;
+		int pass = 0;
+		int max = 0;	
 		for(int i = 0;i < Length_board;i++){
 			max = board_tmp[i];
+			if(!(board_tmp[sum-1] >= max)){
+				continue;
+			}
 			if(i!=0){
-				if(max == board[i-1] || !(board_tmp[sum-1] >= max) ){
+				if(max == board_tmp[i-1]){
 					continue;
 				}
 			}
-			
-			index_count = 0;
-			while(1){
-				if(board[index_count] >= max){
-					for(int ii = 0;ii < Length_poster;ii++){
-						for(int jj = 0;jj < Length_poster[ii];jj++){
-							if(index_count)
+			//cout<<"max:"<<max<<endl;
+			int j = 0;
+			while(j<Length_board){//從board的頭開始搜尋 
+				if(board[j] >= max){//如果 board 的值大於等於max 
+					for( int ii = 0 ;ii<Length_poster;ii++){//從poster的頭開始搜尋 
+						pass = 0;
+						for(int jj = 0;jj<poster[ii];jj++){
+							if(j+1 > Length_board || board[j] < max){//如果j超出board的長度 
+								posterPassArray[ii] = 0;
+								pass = 0;
+								goto start;
+								break;
+							}
+							if(board[j] >= max){
+								pass ++;
+								if(pass == poster[ii]){
+									posterPassArray[ii] = poster[ii];
+								}
+								if(sum_array(posterPassArray,Length_poster) == sum){
+									ii=Length_poster;
+									j=Length_board;
+									i = Length_board;
+									break;
+								}
+							}
+							//j = j + 1;
 						}
 					}
-				}else{
-					index_count ++;
 				}
+				start:
+				j++;
 			}
-			
-			
 		}
-		
-		
-		
-		//計算海報張貼最大高度
-		if(sum != 0 && sum-1<=Length_board){
-			int max_high = board[sum-1];
-			cout<<max_high<<endl;
-		}else{
-			cout<<0<<endl;
-		}
+		cout<<max<<endl;
+
+	
 	}
     return 0;
 }
