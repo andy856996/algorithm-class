@@ -13,12 +13,14 @@ int main(){
 	    int l = 1, r = 0;
 	    for (int i = 1; i <= n; i++){
 	        cin >> h[i];
-	        r = max(r, h[i]);
+	        r = max(r, h[i]);//块程 
 	    }
-	    r++;
+	    r++;//程璶1 
 	    for (int i = 1; i <= k; i++){
 	        cin >> w[i];
 	    }
+	    //hれ狾蔼,w厨糴 ,r程蔼(+1),l纗程眎禟厨 
+	    //nれ狾计,k 厨计 
 	    while (r-l > 1){
 	        int mid = (l+r)/2;
 	        int cnt = 0, now = 1;
@@ -27,7 +29,7 @@ int main(){
 	            if (h[i] >= mid){
 	                cnt++;
 	                if (cnt >= w[now]){
-	                    cnt -= w[now];
+	                    cnt = cnt - w[now];
 	                    if (now == k){
 	                        flag = true;
 	                        break;
